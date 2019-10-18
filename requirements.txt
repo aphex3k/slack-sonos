@@ -1,0 +1,5 @@
+soco
+slackclient
+google-api-python-client
+google_images_search
+oauth2client
