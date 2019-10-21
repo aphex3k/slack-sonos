@@ -4,11 +4,12 @@ from queue import Empty
 import soco
 import slack
 from google_images_search import GoogleImagesSearch
-from datetime import datetime
+from datetime import datetime, timedelta
 
 slack_token = os.environ["SLACK_API_TOKEN"]
 rtmclient = slack.RTMClient(token=slack_token)
 speak_after = datetime.min
+
 
 @slack.RTMClient.run_on(event='message')
 def say_hello(**payload):
@@ -72,7 +73,9 @@ def say_hello(**payload):
             remaining_time = duration - position
             speak_after = datetime.today() + remaining_time
     except:
-        speak_after = datetime.today() + datetime.timedelta(0, 5)
+        buffer = datetime.today() + timedelta(0, 5)
+        speak_after = speak_after if speak_after > buffer else buffer
         pass
+
 
 rtmclient.start()
