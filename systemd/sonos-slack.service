@@ -1,0 +1,16 @@
+[Unit]
+Description=SONOS + Slack
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+Environment="GOOGLE_API_TOKEN="
+Environment="GOOGLE_CX_TOKEN="
+Environment="SLACK_API_TOKEN="
+ExecStart=python3 <INSTALL PATH>/sonos-slack.py
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
