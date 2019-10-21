@@ -7,20 +7,26 @@ from google_images_search import GoogleImagesSearch
 from datetime import datetime, timedelta
 
 slack_token = os.environ["SLACK_API_TOKEN"]
-rtmclient = slack.RTMClient(token=slack_token)
-speak_after = datetime.min
+rtm_client = slack.RTMClient(token=slack_token)
+speak_after = {}
 
 
 @slack.RTMClient.run_on(event='message')
 def say_hello(**payload):
     data = payload['data']
     global speak_after
+    channel = data['channel']
+
+    after_ts = datetime.min
+
+    if channel in speak_after:
+        after_ts = speak_after[channel]
+
     try:
-        if datetime.today() < speak_after:
+        if datetime.today() < after_ts:
             raise Exception("The track last announced is still playing...")
 
         if 'song' in data['text'].lower() or 'sonos' in data['text'].lower() or 'music' in data['text'].lower():
-            channel_id = data['channel']
             thread_ts = data['ts']
             # user = data['user']
 
@@ -59,7 +65,7 @@ def say_hello(**payload):
 
             webclient = payload['web_client']
             webclient.chat_postMessage(
-                channel=channel_id,
+                channel=channel,
                 text=text,
                 thread_ts=thread_ts,
                 as_user=False,
@@ -71,11 +77,11 @@ def say_hello(**payload):
             duration = datetime.strptime(track['duration'], '%H:%M:%S')
             position = datetime.strptime(track['position'], '%H:%M:%S')
             remaining_time = duration - position
-            speak_after = datetime.today() + remaining_time
+            speak_after[channel] = datetime.today() + remaining_time
     except:
         buffer = datetime.today() + timedelta(0, 5)
-        speak_after = speak_after if speak_after > buffer else buffer
+        speak_after[channel] = speak_after[channel] if speak_after[channel] > buffer else buffer
         pass
 
 
-rtmclient.start()
+rtm_client.start()
