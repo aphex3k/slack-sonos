@@ -2,13 +2,17 @@
 
 Add this bot to your Slack channel to ask it what song is currently playing on you Sonos sound system.
 
-<img src="https://raw.githubusercontent.com/aphex3k/sonos-slack/master/.images/sonos-slack.png"/>
+<img src="https://github.com/aphex3k/slack-sonos/blob/master/.images/sonos-slack.png?raw=true"/>
 
 # Installation
 
 After checking out the repository locally, install the dependencies by running
 
     pip3 install -r requirements.txt
+
+or 
+
+    python3 -m pip install -r requirements.txt
 
 # Usage
 
