@@ -1,0 +1,1 @@
+If you want to host this script as a deamon on a systemd enabled environment you can use the service file in this directory as a template. Don't forget to fill in the blanks first though!
