@@ -10,6 +10,10 @@ slack_token = os.environ["SLACK_API_TOKEN"]
 rtm_client = slack.RTMClient(token=slack_token)
 speak_after = {}
 
+if len(slack_token) == 0 or len(os.environ["GOOGLE_API_TOKEN"]) == 0 or os.environ["GOOGLE_CX_TOKEN"] == 0:
+    raise Exception("Please set at least all three environment variables: SLACK_API_TOKEN, GOOGLE_API_TOKEN and " +
+                    "GOOGLE_CX_TOKEN ")
+
 
 @slack.RTMClient.run_on(event='message')
 def say_hello(**payload):
