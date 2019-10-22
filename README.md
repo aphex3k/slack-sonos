@@ -24,3 +24,5 @@ Before starting the script, you need to export the following 3 variables to your
     - This is the context token for you custom google image search
 1. SLACK_API_TOKEN="..."
     - This is the API token for the slack bot integration
+
+[![Build Status](https://travis-ci.org/aphex3k/slack-sonos.svg?branch=master)](https://travis-ci.org/aphex3k/slack-sonos)
